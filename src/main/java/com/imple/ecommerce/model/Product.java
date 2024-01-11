@@ -18,13 +18,13 @@ public class Product {
     @Column(name = "description")
     private String description;
     @Column(name = "price")
-    private String price;
+    private int price;
     @Column(name = "discounted_price")
-    private String discountedPrice;
-    @Column(name = "discount_present")
-    private String discountPrice;
+    private int discountedPrice;
+    @Column(name = "discount_percent")
+    private int discountPercent;
     @Column(name = "quantity")
-    private String quantity;
+    private int quantity;
     private String brand;
     private String color;
 
@@ -49,15 +49,15 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id, String title, String description, String price, String discountedPrice, String discountPrice,
-                   String quantity, String brand, String color, Set<Size> sizes, String imageUrl, List<Rating> ratings,
+    public Product(Long id, String title, String description, int price, int discountedPrice, int discountPercent,
+                   int quantity, String brand, String color, Set<Size> sizes, String imageUrl, List<Rating> ratings,
                    List<Review> reviews, int numRatings, Category category, LocalDateTime createdAt) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.price = price;
         this.discountedPrice = discountedPrice;
-        this.discountPrice = discountPrice;
+        this.discountPercent = discountPercent;
         this.quantity = quantity;
         this.brand = brand;
         this.color = color;
@@ -94,35 +94,35 @@ public class Product {
         this.description = description;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
-    public String getDiscountedPrice() {
+    public int getDiscountedPrice() {
         return discountedPrice;
     }
 
-    public void setDiscountedPrice(String discountedPrice) {
+    public void setDiscountedPrice(int discountedPrice) {
         this.discountedPrice = discountedPrice;
     }
 
-    public String getDiscountPrice() {
-        return discountPrice;
+    public int getDiscountPercent() {
+        return discountPercent;
     }
 
-    public void setDiscountPrice(String discountPrice) {
-        this.discountPrice = discountPrice;
+    public void setDiscountPercent(int discountPercent) {
+        this.discountPercent = discountPercent;
     }
 
-    public String getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
