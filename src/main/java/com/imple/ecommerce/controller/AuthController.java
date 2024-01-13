@@ -6,6 +6,7 @@ import com.imple.ecommerce.model.User;
 import com.imple.ecommerce.repository.UserRepository;
 import com.imple.ecommerce.request.LoginRequest;
 import com.imple.ecommerce.response.AuthResponse;
+import com.imple.ecommerce.service.CartService;
 import com.imple.ecommerce.service.CustomeUserServiceImplementation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -28,13 +31,15 @@ public class AuthController {
     private JwtProvider jwtProvider;
     private PasswordEncoder passwordEncoder;
     private CustomeUserServiceImplementation customeUserService;
+    private CartService cartService;
 
-    public AuthController(UserRepository userRepository,CustomeUserServiceImplementation customeUserService,
-                          JwtProvider jwtProvider,PasswordEncoder passwordEncoder){
+    public AuthController(UserRepository userRepository, JwtProvider jwtProvider, PasswordEncoder passwordEncoder,
+                          CustomeUserServiceImplementation customeUserService, CartService cartService) {
         this.userRepository = userRepository;
-        this.customeUserService = customeUserService;
-        this.passwordEncoder = passwordEncoder;
         this.jwtProvider = jwtProvider;
+        this.passwordEncoder = passwordEncoder;
+        this.customeUserService = customeUserService;
+        this.cartService = cartService;
     }
 
     @PostMapping("/signup")
@@ -56,8 +61,11 @@ public class AuthController {
         createdUser.setPassword(passwordEncoder.encode(password));
         createdUser.setFirstName(firstName);
         createdUser.setLastName(lastName);
+        createdUser.setCreatedAt(LocalDateTime.now());
+
 
         User savedUser = userRepository.save(createdUser);
+        cartService.createCart(savedUser);
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(savedUser.getEmail(),savedUser.getPassword());
 
@@ -68,11 +76,11 @@ public class AuthController {
         AuthResponse authResponse = new AuthResponse();
         authResponse.setJwt(token);
         authResponse.setMessage("Signup Success");
-        return new ResponseEntity<AuthResponse>(authResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<AuthResponse> loginUserHandler(@RequestBody LoginRequest loginRequest) throws UserException{
+    public ResponseEntity<AuthResponse> loginUserHandler(@RequestBody LoginRequest loginRequest) {
         String username = loginRequest.getEmail();
         String password = loginRequest.getPassword();
 
@@ -84,7 +92,7 @@ public class AuthController {
         AuthResponse authResponse = new AuthResponse();
         authResponse.setJwt(token);
         authResponse.setMessage("Signin Success");
-        return new ResponseEntity<AuthResponse>(authResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
     }
 
     private Authentication authenicate(String username, String password) {

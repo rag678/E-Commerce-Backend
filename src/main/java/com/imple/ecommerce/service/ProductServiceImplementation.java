@@ -3,9 +3,12 @@ package com.imple.ecommerce.service;
 import com.imple.ecommerce.exception.ProductException;
 import com.imple.ecommerce.model.Category;
 import com.imple.ecommerce.model.Product;
+import com.imple.ecommerce.model.Size;
 import com.imple.ecommerce.repository.CategoryRepository;
 import com.imple.ecommerce.repository.ProductRepository;
+import com.imple.ecommerce.request.AddItemRequest;
 import com.imple.ecommerce.request.CreateProductRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -13,11 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
-
+@Slf4j
 @Service
 public class ProductServiceImplementation implements ProductService{
     private ProductRepository productRepository;
@@ -35,7 +36,7 @@ public class ProductServiceImplementation implements ProductService{
     public Product createProduct(CreateProductRequest request) {
         Category topLevel = categoryRepository.findByName(request.getTopLevelCategory());
 
-        if (topLevel!=null){
+        if (topLevel==null){
             Category topLevelCategory = new Category();
             topLevelCategory.setName(request.getTopLevelCategory());
             topLevelCategory.setLevel(1);
@@ -86,11 +87,18 @@ public class ProductServiceImplementation implements ProductService{
         productRepository.delete(product);
         return "Product Deleted Succcesfully";
     }
-
     @Override
     public Product updateProduct(Long productId, Product req) throws ProductException {
         Product product = findProductById(productId);
 
+//        Set<Size> sizeSet = req.getSizes();
+//        log.info("Size Set : {}",sizeSet);
+//        product.setSizes(sizeSet);
+//
+//        log.info("Set with set : {}",product);
+//        log.info("size Set with set : {}",product);
+//        product.getSizes().addAll(sizeSet);
+//        log.info("size Set with set : {}",product);
         if (req.getQuantity()!=0){
             product.setQuantity(req.getQuantity());
         }

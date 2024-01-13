@@ -1,6 +1,7 @@
 package com.imple.ecommerce.service;
 
 import com.imple.ecommerce.exception.ProductException;
+import com.imple.ecommerce.exception.UserException;
 import com.imple.ecommerce.model.Cart;
 import com.imple.ecommerce.model.CartItem;
 import com.imple.ecommerce.model.Product;
@@ -15,6 +16,7 @@ public class CartServiceImplementation implements CartService {
     private CartRepository cartRepository;
     private CartItemService cartItemService;
     private ProductService productService;
+    private UserService userService;
 
     public CartServiceImplementation(CartRepository cartRepository, CartItemService cartItemService,
                                      ProductService productService) {

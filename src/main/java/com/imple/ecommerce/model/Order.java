@@ -1,5 +1,6 @@
 package com.imple.ecommerce.model;
 
+import com.imple.ecommerce.utils.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,6 +14,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "orders")
 public class Order {
 
     @Id
@@ -39,7 +41,8 @@ public class Order {
     private double totalPrice;
     private Integer totalDiscountedPrice;
     private Integer discount;
-    private String orderStatus;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
     private int totalItem;
     private LocalDateTime createdAt;
 

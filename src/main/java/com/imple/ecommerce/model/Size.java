@@ -7,6 +7,19 @@ public class Size {
     public Size() {
     }
 
+    public Size(String name, int quantity) {
+        this.name = name;
+        this.quantity = quantity;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "name='" + name + '\'' +
+                ", quantity=" + quantity +
+                '}';
+    }
+
     public String getName() {
         return name;
     }

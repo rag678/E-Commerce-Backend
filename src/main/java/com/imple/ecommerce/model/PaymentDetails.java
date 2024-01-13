@@ -1,9 +1,20 @@
 package com.imple.ecommerce.model;
 
+import com.imple.ecommerce.utils.PaymentStatus;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
 public class PaymentDetails {
 
     private String paymentMethod;
-    private String status;
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus status;
     private String paymentId;
     private String razorpayPaymentLinkId;
     private String razorpayPaymentLinkReferenceId;
@@ -13,70 +24,4 @@ public class PaymentDetails {
     public PaymentDetails() {
     }
 
-    public PaymentDetails(String paymentMethod, String status, String paymentId, String razorpayPaymentLinkId,
-                          String razorpayPaymentLinkReferenceId, String razorpayPaymentLinkStatus, String razorpayPaymentId) {
-        this.paymentMethod = paymentMethod;
-        this.status = status;
-        this.paymentId = paymentId;
-        this.razorpayPaymentLinkId = razorpayPaymentLinkId;
-        this.razorpayPaymentLinkReferenceId = razorpayPaymentLinkReferenceId;
-        this.razorpayPaymentLinkStatus = razorpayPaymentLinkStatus;
-        this.razorpayPaymentId = razorpayPaymentId;
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getPaymentId() {
-        return paymentId;
-    }
-
-    public void setPaymentId(String paymentId) {
-        this.paymentId = paymentId;
-    }
-
-    public String getRazorpayPaymentLinkId() {
-        return razorpayPaymentLinkId;
-    }
-
-    public void setRazorpayPaymentLinkId(String razorpayPaymentLinkId) {
-        this.razorpayPaymentLinkId = razorpayPaymentLinkId;
-    }
-
-    public String getRazorpayPaymentLinkReferenceId() {
-        return razorpayPaymentLinkReferenceId;
-    }
-
-    public void setRazorpayPaymentLinkReferenceId(String razorpayPaymentLinkReferenceId) {
-        this.razorpayPaymentLinkReferenceId = razorpayPaymentLinkReferenceId;
-    }
-
-    public String getRazorpayPaymentLinkStatus() {
-        return razorpayPaymentLinkStatus;
-    }
-
-    public void setRazorpayPaymentLinkStatus(String razorpayPaymentLinkStatus) {
-        this.razorpayPaymentLinkStatus = razorpayPaymentLinkStatus;
-    }
-
-    public String getRazorpayPaymentId() {
-        return razorpayPaymentId;
-    }
-
-    public void setRazorpayPaymentId(String razorpayPaymentId) {
-        this.razorpayPaymentId = razorpayPaymentId;
-    }
 }
