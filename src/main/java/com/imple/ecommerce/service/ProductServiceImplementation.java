@@ -34,28 +34,28 @@ public class ProductServiceImplementation implements ProductService{
     }
     @Override
     public Product createProduct(CreateProductRequest request) {
-        Category topLevel = categoryRepository.findByName(request.getTopLevelCategory());
+        Category topLevel = categoryRepository.findByName(request.getTopLavelCategory());
 
         if (topLevel==null){
             Category topLevelCategory = new Category();
-            topLevelCategory.setName(request.getTopLevelCategory());
+            topLevelCategory.setName(request.getTopLavelCategory());
             topLevelCategory.setLevel(1);
 
             topLevel = categoryRepository.save(topLevelCategory);
         }
-        Category secondLevel = categoryRepository.findByNameAndParent(request.getSecondLevelCategory(),topLevel.getName());
+        Category secondLevel = categoryRepository.findByNameAndParent(request.getSecondLavelCategory(),topLevel.getName());
         if (secondLevel == null){
             Category secondLevelCategory = new Category();
-            secondLevelCategory.setName(request.getSecondLevelCategory());
+            secondLevelCategory.setName(request.getSecondLavelCategory());
             secondLevelCategory.setParentCategory(topLevel);
             secondLevelCategory.setLevel(2);
 
             secondLevel = categoryRepository.save(secondLevelCategory);
         }
-        Category thirdLevel = categoryRepository.findByNameAndParent(request.getThirdLevelCategory(), secondLevel.getName());
+        Category thirdLevel = categoryRepository.findByNameAndParent(request.getThirdLavelCategory(), secondLevel.getName());
         if (thirdLevel == null){
             Category thirdLevelCategory = new Category();
-            thirdLevelCategory.setName(request.getThirdLevelCategory());
+            thirdLevelCategory.setName(request.getThirdLavelCategory());
             thirdLevelCategory.setParentCategory(secondLevel);
             thirdLevelCategory.setLevel(3);
 
@@ -66,11 +66,11 @@ public class ProductServiceImplementation implements ProductService{
         product.setColor(request.getColor());
         product.setDescription(request.getDescription());
         product.setDiscountedPrice(request.getDiscountedPrice());
-        product.setDiscountPercent(request.getDiscountedPercent());
+        product.setDiscountPercent(request.getDiscountPersent());
         product.setImageUrl(request.getImageUrl());
         product.setBrand(request.getBrand());
         product.setPrice(request.getPrice());
-        product.setSizes(request.getSizeSet());
+        product.setSizes(request.getSize());
         product.setQuantity(request.getQuantity());
         product.setCategory(thirdLevel);
         product.setCreatedAt(LocalDateTime.now());
