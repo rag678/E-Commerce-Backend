@@ -31,7 +31,8 @@ public class CartItemServiceImplementation implements CartItemService{
         cartItem.setQuantity(1);
         cartItem.setPrice(cartItem.getProduct().getPrice() * cartItem.getQuantity());
         cartItem.setDiscountedPrice(cartItem.getProduct().getDiscountedPrice()* cartItem.getQuantity());
-        return cartItemRepository.save(cartItem);
+        CartItem cartItem1 = cartItemRepository.save(cartItem);
+        return cartItem1;
     }
 
     @Override
@@ -49,7 +50,7 @@ public class CartItemServiceImplementation implements CartItemService{
 
     @Override
     public CartItem isCartItemExist(Cart cart, Product product, String size, Long userId) {
-        CartItem cartItem = cartItemRepository.isCartItemExist(cart,product,size,userId);
+        CartItem cartItem = cartItemRepository.isCartItemExist(product,size,userId);
         return cartItem;
     }
 

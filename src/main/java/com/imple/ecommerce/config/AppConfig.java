@@ -32,7 +32,8 @@ public class AppConfig {
                         CorsConfiguration cfgs = new CorsConfiguration();
                         cfgs.setAllowedOrigins(Arrays.asList(
                                 "http://localhost:3000",
-                                "http://localhost:4200"
+                                "http://localhost:4200",
+                                "https://ecommerce-pink-beta.vercel.app/"
                         ));
                         cfgs.setAllowedMethods(Collections.singletonList("*"));
                         cfgs.setAllowCredentials(true);

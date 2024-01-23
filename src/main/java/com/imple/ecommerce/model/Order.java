@@ -1,5 +1,6 @@
 package com.imple.ecommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.imple.ecommerce.utils.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,7 +9,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -27,8 +30,9 @@ public class Order {
     @ManyToOne
     private User user;
 
-    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
-    List<OrderItem> orderItems = new ArrayList<>();
+
+    @OneToMany
+    Set<OrderItem> orderItems = new HashSet<>();
 
     private LocalDateTime orderDate;
     private LocalDateTime deliveryDate;
@@ -45,5 +49,6 @@ public class Order {
     private OrderStatus orderStatus;
     private int totalItem;
     private LocalDateTime createdAt;
+
 
 }

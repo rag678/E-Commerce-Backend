@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin/orders")
@@ -54,11 +56,15 @@ public class AdminOrderController {
     }
 
     @PutMapping("/{orderId}/delete")
-    public ResponseEntity<?> deleteOrderHandler(@PathVariable Long orderId,
+    public ResponseEntity<Map<String,Object>> deleteOrderHandler(@PathVariable Long orderId,
                                                        @RequestHeader("Authorization") String jwt) throws OrderException{
         orderService.deleteOrder(orderId);
 
-        return new ResponseEntity<>("order deleted sucesfully",HttpStatus.OK);
+        Map<String,Object> response = new HashMap<>();
+        response.put("message","order deleted succesfully");
+        response.put("status",true);
+
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
 }

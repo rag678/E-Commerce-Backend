@@ -1,6 +1,5 @@
 package com.imple.ecommerce.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,9 +14,9 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonIgnore
-    @ManyToOne
-    private Cart cart;
+//    @ManyToOne
+//    @JoinColumn(name = "cart_id")
+//    private Cart cart;
 
     @ManyToOne
     private Product product;

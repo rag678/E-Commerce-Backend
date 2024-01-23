@@ -5,12 +5,11 @@ import com.imple.ecommerce.model.*;
 import com.imple.ecommerce.repository.*;
 import com.imple.ecommerce.utils.OrderStatus;
 import com.imple.ecommerce.utils.PaymentStatus;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class OrderServiceImplementation implements OrderService{
@@ -31,6 +30,7 @@ public class OrderServiceImplementation implements OrderService{
     }
 
     @Override
+    @Transactional
     public Order createOrder(User user, Address shippingAddress) {
         shippingAddress.setUser(user);
         Address address = addressRepository.save(shippingAddress);
@@ -38,16 +38,16 @@ public class OrderServiceImplementation implements OrderService{
         userRepository.save(user);
 
         Cart cart = cartService.findUserCart(user.getId());
-        List<OrderItem> orderItemList = new ArrayList<>();
+        Set<OrderItem> orderItemList = new HashSet<>();
+        Order createdOrder = new Order();
 
         for (CartItem cartItem : cart.getCartItems()){
             OrderItem orderItem = new OrderItem();
             orderItem.setPrice(cartItem.getPrice());
             orderItem.setQuantity(cartItem.getQuantity());
             orderItem.setProduct(cartItem.getProduct());
-            orderItem.setQuantity(cartItem.getQuantity());
             orderItem.setSize(cartItem.getSize());
-            orderItem.setUserId(cartItem.getUserId());
+            orderItem.setUserId(cartItem.getUserId().longValue());
             orderItem.setDiscountedPrice(cartItem.getDiscountedPrice());
 
             OrderItem createdOrderItem = orderItemRepository.save(orderItem);
@@ -55,7 +55,6 @@ public class OrderServiceImplementation implements OrderService{
             orderItemList.add(createdOrderItem);
         }
 
-        Order createdOrder = new Order();
         createdOrder.setCreatedAt(LocalDateTime.now());
         createdOrder.setUser(user);
         createdOrder.setOrderItems(orderItemList);
@@ -71,10 +70,10 @@ public class OrderServiceImplementation implements OrderService{
 
         Order savedOrder = orderrepository.save(createdOrder);
 
-        for (OrderItem item : orderItemList){
-            item.setOrder(savedOrder);
-            orderItemRepository.save(item);
-        }
+//        for (OrderItem item : orderItemList){
+//            item.setOrder(savedOrder);
+//            orderItemRepository.save(item);
+//        }
         return savedOrder;
     }
 

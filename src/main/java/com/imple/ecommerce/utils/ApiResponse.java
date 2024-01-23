@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 @Data
-public abstract class ApiResponse implements io.swagger.v3.oas.annotations.responses.ApiResponse {
+public class ApiResponse  {
     private String status;
     private String message;
 }
